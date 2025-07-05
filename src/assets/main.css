@@ -1,16 +1,11 @@
 body {
   margin: 0;
   height: 100vh;
-  /* height: max-content; */
-  /* height: auto; */
-  /* width: 100vw; */
   background-color: #e6edfd;
 }
 
 #app {
-  /* height: auto; */
   width: 100%;
-  /* overflow: hidden; */
 }
 
 p {

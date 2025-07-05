@@ -33,6 +33,8 @@ const clickHandler = () => {
   cursor: pointer;
   text-wrap: nowrap;
   background-color: #b6c6ec;
+  font-family: '18vag';
+  font-weight: normal;
 }
 
 .form-button:not(.button-disabled):hover {

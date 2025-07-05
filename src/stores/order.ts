@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
 import { type TOrder, EOrderStatus, type TFileData } from '~/types';
+import { image } from './fakeDate';
+
 type TOrderStore = {
   currentOrder: TOrder;
 };
@@ -28,12 +30,12 @@ export const useOrderStore = defineStore('order', {
         this.currentOrder = formData;
       } else {
         this.currentOrder = {
-          title: 'order-title',
-          description: 'description    description',
-          producer: 'producer',
-          organization: 'organization',
+          title: 'заголовок',
+          description: 'описание заказа  описание заказа: \n - з  \n - а  \n - к  \n - а  \n - з',
+          producer: 'производитель',
+          organization: 'организация',
           status: EOrderStatus.COMPLETED,
-          image: null,
+          image: image,
           attachedFiles: []
         };
       }

@@ -34,6 +34,9 @@
 <script setup lang="ts">
 import { type TFileData } from '~/types';
 import { ref, watch } from 'vue';
+import { useNotificationsStore } from '~/stores/notifications';
+
+const notificationsStore = useNotificationsStore();
 
 const attachedFiles = defineModel<Map<string, File>>('attachedFiles', { required: true });
 const fileList = defineModel<TFileData[]>('fileList', { required: true });
@@ -49,12 +52,18 @@ const setIntersectedState = (value: boolean) => {
 
 const dropFile = (event: DragEvent) => {
   setIntersectedState(false);
-  if (!event.dataTransfer) return;
+  if (!event.dataTransfer) {
+    notificationsStore.addNotification('No data');
+    return;
+  }
 
   const files = event.dataTransfer.files;
 
   [...files].forEach((file) => {
-    if (!file.type) return;
+    if (!file.type) {
+      notificationsStore.addNotification('Only files are allowed')
+      return;
+    }
 
     if (!isFilesDropped.value) {
       isFilesDropped.value = true;

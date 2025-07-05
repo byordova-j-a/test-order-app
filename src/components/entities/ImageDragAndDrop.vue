@@ -31,6 +31,9 @@
 
 <script setup lang="ts">
 import { useTemplateRef, ref, watch } from 'vue';
+import { useNotificationsStore } from '~/stores/notifications';
+
+const notificationsStore = useNotificationsStore();
 
 const modelValue = defineModel<string | null>({ required: true });
 const componentProps = defineProps<{ isEditMode: boolean }>();
@@ -47,10 +50,14 @@ const setIntersectedState = (value: boolean) => {
 
 const dropImage = (event: DragEvent) => {
   setIntersectedState(false);
-  if (!event.dataTransfer) return;
+  if (!event.dataTransfer) {
+    notificationsStore.addNotification('No data')
+    return;
+  }
 
   const file = event.dataTransfer.files[0];
   if (!file.type.match(imageType)) {
+    notificationsStore.addNotification('Оnly files are allowed')
     return;
   }
   return new Promise((resolve, reject) => {
@@ -64,9 +71,10 @@ const dropImage = (event: DragEvent) => {
       }
     };
 
-    reader.onerror = (err) => {
-      console.log(err);
-      reject(err);
+    reader.onerror = () => {
+      const errorMessage = `Error occurred reading file ${file.name}`
+      notificationsStore.addNotification(errorMessage)
+      reject(new Error(errorMessage));
     };
 
     reader.readAsDataURL(file);
